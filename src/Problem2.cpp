@@ -70,7 +70,83 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
-
+struct node * converttodll(struct node *root);
+int compare(struct node_dll *head, struct node *h);
 int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+	if(head==NULL||root==NULL)
+		return -1;
+	int len1=1,len2=0;
+	struct node *r,*h;
+	struct node_dll *a;
+	if (root->left != NULL){
+		r = root->left;
+		for (r; r != NULL; r = r->left)
+		{
+			len1++;
+		}
+	}
+	if (root->left != NULL&&root->left->right != NULL){
+		r = root->left->right;
+		for (r; r != NULL; r = r->right){
+			len1++;
+		}
+	}
+	if (root->right != NULL){
+		r = root->right;
+		for (r; r != NULL; r = r->right){
+			len1++;
+		}
+	}
+	if (root->right != NULL&&root->right->left != NULL){
+		r = root->right->left;
+		for (r; r != NULL; r = r->left){
+			len1++;
+		}
+	}
+	for (a = head; a != NULL; a = a->next, len2++);
+	if (len1 != len2)
+		return 0;
+	else{
+		//if (root!=NULL)
+		h = converttodll(root);
+		for (h; h->left != NULL;)
+			h = h->left;
+		int z=compare(head, h);
+		return z;
+	}
 }
+int compare(struct node_dll *head, struct node *h)
+{
+	for (; head != NULL || h != NULL; head = head->next, h = h->right)
+	{
+		if (head->data != h->data)
+			return 0;
+	}
+	return 1;
+}
+struct node * converttodll(struct node *root)
+{
+	if (root == NULL)
+		return root;
+	if (root->left != NULL)
+	{
+		struct node *l = converttodll(root->left);
+		for (l; l->right != NULL; l = l->right);
+		l->right = root;
+		root->left = l;
+	}
+	if (root->right != NULL)
+	{
+		struct node *r = converttodll(root->right);
+		for (; r->left != NULL; r = r->left);
+		r->left = root;
+		root->right = r;
+	}
+	return root;
+}
+
+
+
+
+
+
