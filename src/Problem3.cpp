@@ -84,6 +84,34 @@ int getOperand(char *data){
 int solve_tree(struct enode *root){
 	if (root==NULL)
 	  return -1;
-
+	struct enode *r;
+	int len1=1;
+	if (root->left != NULL){
+		r = root->left;
+		for (r; r != NULL; r = r->left)
+		{
+			len1++;
+		}
+	}
+	if (root->left != NULL&&root->left->right != NULL){
+		r = root->left->right;
+		for (r; r != NULL; r = r->right){
+			len1++;
+		}
+	}
+	if (root->right != NULL){
+		r = root->right;
+		for (r; r != NULL; r = r->right){
+			len1++;
+		}
+	}
+	if (root->right != NULL&&root->right->left != NULL){
+		r = root->right->left;
+		for (r; r != NULL; r = r->left){
+			len1++;
+		}
+	}
+	char *c;
+	c = (char *)malloc(len1*sizeof(char));
 }
 
