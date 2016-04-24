@@ -70,13 +70,13 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
-struct node * converttodll(struct node *root);
-int compare(struct node_dll *head, struct node *h);
+struct node * todll(struct node *root);
+int com(struct node_dll *head, struct node *h);
 int is_identical(struct node_dll *head, struct node *root){
 	if(head==NULL||root==NULL)
 		return -1;
 	int len1=1,len2=0;
-	struct node *r,*h;
+	struct node *r,*h=root;
 	struct node_dll *a;
 	if (root->left != NULL){
 		r = root->left;
@@ -106,16 +106,13 @@ int is_identical(struct node_dll *head, struct node *root){
 	for (a = head; a != NULL; a = a->next, len2++);
 	if (len1 != len2)
 		return 0;
-	else{
-		//if (root!=NULL)
-		h = converttodll(root);
-		for (h; h->left != NULL;)
-			h = h->left;
-		int z=compare(head, h);
-		return z;
-	}
+	h = todll(root);
+	for (h; h->left != NULL;)
+		h = h->left;
+	int z=com(head, h);
+	return z;
 }
-int compare(struct node_dll *head, struct node *h)
+int com(struct node_dll *head, struct node *h)
 {
 	for (; head != NULL || h != NULL; head = head->next, h = h->right)
 	{
@@ -124,21 +121,21 @@ int compare(struct node_dll *head, struct node *h)
 	}
 	return 1;
 }
-struct node * converttodll(struct node *root)
+struct node * todll(struct node *root)
 {
 	if (root == NULL)
 		return root;
 	if (root->left != NULL)
 	{
-		struct node *l = converttodll(root->left);
+		struct node *l = todll(root->left);
 		for (l; l->right != NULL; l = l->right);
 		l->right = root;
 		root->left = l;
 	}
 	if (root->right != NULL)
 	{
-		struct node *r = converttodll(root->right);
-		for (; r->left != NULL; r = r->left);
+		struct node *r = todll(root->right);
+		for (r; r->left != NULL; r = r->left);
 		r->left = root;
 		root->right = r;
 	}
